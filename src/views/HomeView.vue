@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import { onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+const route = useRoute()
+
+onMounted(() => {
+  if (route.params.barcode) {
+    alert(route.params.barcode)
+  }
+})
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <main>这是主页</main>
 </template>
