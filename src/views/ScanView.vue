@@ -41,6 +41,7 @@
   </div>
 
   <p v-if="torchNotSupported" class="error">这个摄像头不支持闪光灯</p>
+  <router-link to="/home">返回</router-link>
 </template>
 
 <script setup lang="ts">
@@ -66,10 +67,7 @@ function onDetect(detectedCodes: any[]) {
 watch(result, (value)=>{
   if(value.length>0){
     router.push({
-      params: {
-        barcode: value[0]
-      },
-      name: 'home'
+      path: '/home',
     })
   }
 })
