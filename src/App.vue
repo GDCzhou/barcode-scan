@@ -1,11 +1,11 @@
 <template>
   <div>
-    <select v-model="selectedConstraints">
+    <!-- <select v-model="selectedConstraints">
       <option v-for="option in constraintOptions" :key="option.label" :value="option.constraints">
         {{ option.label }}
       </option>
-    </select>
-    <p>
+    </select> -->
+    <!-- <p>
       <span
         v-for="option in Object.keys(barcodeFormats)"
         :key="option"
@@ -14,12 +14,12 @@
         <input type="checkbox" v-model="barcodeFormats[option]" :id="option" />
         <label :for="option">{{ option }}</label>
       </span>
-    </p>
+    </p> -->
 
     <p class="error">{{ error }}</p>
 
     <p class="decode-result">
-      Last result: <b>{{ result }}</b>
+      扫描结果: <b>{{ result }}</b>
     </p>
 
     <div>
@@ -35,12 +35,12 @@
         <button @click="torchActive = !torchActive" :disabled="torchNotSupported">
           {{ torchActive ? '关闭' : '打开' }}手电筒
         </button>
+        <button @click="switchCamera">切换摄像头</button>
       </qrcode-stream>
     </div>
-    <div @click="switchCamera">切换摄像头</div>
   </div>
 
-  <p v-if="torchNotSupported" class="error">Torch not supported for active camera</p>
+  <p v-if="torchNotSupported" class="error">这个摄像头不支持闪光灯</p>
 </template>
 
 <script setup lang="ts">
