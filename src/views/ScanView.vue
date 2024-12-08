@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="scan-view">
     <!-- <select v-model="selectedConstraints">
       <option v-for="option in constraintOptions" :key="option.label" :value="option.constraints">
         {{ option.label }}
@@ -18,11 +18,13 @@
 
     <p class="error">{{ error }}</p>
 
-    <p class="decode-result">
-      扫描结果: <div v-for="res in result" :key="res">{{ res }}</div> |
-    </p>
+    <div class="decode-result">
+      扫描结果:
+      <div v-for="res in result" :key="res">{{ res }}</div>
+      |
+    </div>
 
-    <div>
+    <div class="qrcode-stream-container">
       <qrcode-stream
         :constraints="facingMode"
         :track="trackFunctionSelected.value"
@@ -38,10 +40,9 @@
         <button @click="switchCamera">切换摄像头</button>
       </qrcode-stream>
     </div>
+    <p v-if="torchNotSupported" class="error">这个摄像头不支持闪光灯</p>
+    <router-link to="/home">返回</router-link>
   </div>
-
-  <p v-if="torchNotSupported" class="error">这个摄像头不支持闪光灯</p>
-  <router-link to="/home">返回</router-link>
 </template>
 
 <script setup lang="ts">
@@ -64,11 +65,12 @@ function onDetect(detectedCodes: any[]) {
 }
 
 /*** select camera ***/
-watch(result, (value)=>{
-  if(value.length>0){
-    router.push({
-      path: '/home',
-    })
+watch(result, (value) => {
+  if (value.length > 0 && /^\d+$/.test(value[0])) {
+    console.log('扫描成功： ', value[0])
+    // router.push({
+    //   path: '/home',
+    // })
   }
 })
 
@@ -239,7 +241,21 @@ function onError(err) {
 }
 </script>
 
-<style scoped>
+<style>
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.scan-view {
+  width: 100vw;
+  height: 100vh;
+}
+.qrcode-stream-container {
+  width: 100%;
+  height: 50%;
+}
 .error {
   font-weight: bold;
   color: red;
@@ -248,5 +264,8 @@ function onError(err) {
   margin-right: 10px;
   white-space: nowrap;
   display: inline-block;
+}
+.code-result {
+  width: 50vw;
 }
 </style>
